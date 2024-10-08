@@ -22,7 +22,7 @@ namespace PCTInvestTestApp
             InitializeComponent();
             InitBindings();
           
-
+                
         }
 
 
