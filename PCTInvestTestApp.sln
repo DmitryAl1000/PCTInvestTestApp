@@ -5,6 +5,10 @@ VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test_PCT_Tishchenko", "Test_PCT_Tishchenko\Test_PCT_Tishchenko.csproj", "{B1039C14-88B6-4175-A384-DA7D5A238D64}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackList", "..\TestMVVM\TestMVVM\BlackList.csproj", "{5F54F24B-ADF2-4072-9D55-693F6C786513}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lib_Excell", "..\DLFromExcell\ExcelLib\Lib_Excell.csproj", "{18678F2C-D634-445B-AC6E-B2FA32BE5817}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{B1039C14-88B6-4175-A384-DA7D5A238D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1039C14-88B6-4175-A384-DA7D5A238D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1039C14-88B6-4175-A384-DA7D5A238D64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F54F24B-ADF2-4072-9D55-693F6C786513}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F54F24B-ADF2-4072-9D55-693F6C786513}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F54F24B-ADF2-4072-9D55-693F6C786513}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F54F24B-ADF2-4072-9D55-693F6C786513}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18678F2C-D634-445B-AC6E-B2FA32BE5817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18678F2C-D634-445B-AC6E-B2FA32BE5817}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18678F2C-D634-445B-AC6E-B2FA32BE5817}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18678F2C-D634-445B-AC6E-B2FA32BE5817}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

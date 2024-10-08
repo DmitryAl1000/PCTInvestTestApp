@@ -9,8 +9,7 @@ namespace PCTInvestTestApp
     public interface ILabel
     {
          public string Id { get; set; }
-         public string Count { get; set; }
-
+         public int Count { get; set; }
 
     }
 }

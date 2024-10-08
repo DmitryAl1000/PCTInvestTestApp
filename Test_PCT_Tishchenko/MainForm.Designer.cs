@@ -37,6 +37,8 @@
             label1 = new Label();
             CleanButton = new Button();
             splitContainer1 = new SplitContainer();
+            TakerAddButton = new Button();
+            SenderAddButton = new Button();
             SendLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)TakerDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SenderDataGridView).BeginInit();
@@ -64,7 +66,7 @@
             SenderDataGridView.Location = new Point(4, 216);
             SenderDataGridView.Margin = new Padding(4, 3, 4, 3);
             SenderDataGridView.Name = "SenderDataGridView";
-            SenderDataGridView.Size = new Size(486, 425);
+            SenderDataGridView.Size = new Size(481, 425);
             SenderDataGridView.TabIndex = 1;
             // 
             // GetLabel
@@ -88,6 +90,7 @@
             TakerRichTextBox.Size = new Size(486, 49);
             TakerRichTextBox.TabIndex = 4;
             TakerRichTextBox.Text = "";
+            TakerRichTextBox.KeyDown += TakerRichTextBox_KeyDown;
             // 
             // SenderRichTextBox
             // 
@@ -95,9 +98,10 @@
             SenderRichTextBox.Location = new Point(4, 117);
             SenderRichTextBox.Margin = new Padding(4, 3, 4, 3);
             SenderRichTextBox.Name = "SenderRichTextBox";
-            SenderRichTextBox.Size = new Size(485, 49);
+            SenderRichTextBox.Size = new Size(480, 49);
             SenderRichTextBox.TabIndex = 5;
             SenderRichTextBox.Text = "";
+            SenderRichTextBox.KeyDown += SenderRichTextBox_KeyDown;
             // 
             // GetDiscriptionLabel
             // 
@@ -116,7 +120,7 @@
             label1.Location = new Point(5, 91);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(487, 22);
+            label1.Size = new Size(482, 22);
             label1.TabIndex = 7;
             label1.Text = "Поле ввода данных для отгрузки";
             label1.TextAlign = ContentAlignment.TopCenter;
@@ -142,6 +146,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(TakerAddButton);
             splitContainer1.Panel1.Controls.Add(TakerDataGridView);
             splitContainer1.Panel1.Controls.Add(GetLabel);
             splitContainer1.Panel1.Controls.Add(TakerRichTextBox);
@@ -149,6 +154,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(SenderAddButton);
             splitContainer1.Panel2.Controls.Add(SendLabel);
             splitContainer1.Panel2.Controls.Add(SenderDataGridView);
             splitContainer1.Panel2.Controls.Add(label1);
@@ -159,6 +165,25 @@
             splitContainer1.SplitterWidth = 5;
             splitContainer1.TabIndex = 9;
             // 
+            // TakerAddButton
+            // 
+            TakerAddButton.Location = new Point(-50, -50);
+            TakerAddButton.Name = "TakerAddButton";
+            TakerAddButton.Size = new Size(128, 27);
+            TakerAddButton.TabIndex = 7;
+            TakerAddButton.Text = "добавить в прием";
+            TakerAddButton.UseVisualStyleBackColor = true;
+            // 
+            // SenderAddButton
+            // 
+            SenderAddButton.Location = new Point(-50, -50);
+            SenderAddButton.Name = "SenderAddButton";
+            SenderAddButton.Size = new Size(154, 23);
+            SenderAddButton.TabIndex = 9;
+            SenderAddButton.Text = "Добавить в отгрузку";
+            SenderAddButton.UseVisualStyleBackColor = true;
+            SenderAddButton.Visible = true;
+            // 
             // SendLabel
             // 
             SendLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
@@ -166,7 +191,7 @@
             SendLabel.Location = new Point(4, 185);
             SendLabel.Margin = new Padding(4, 0, 4, 0);
             SendLabel.Name = "SendLabel";
-            SendLabel.Size = new Size(485, 28);
+            SendLabel.Size = new Size(480, 28);
             SendLabel.TabIndex = 8;
             SendLabel.Text = "Отгрузка";
             SendLabel.TextAlign = ContentAlignment.TopCenter;
@@ -203,6 +228,8 @@
         private System.Windows.Forms.Button CleanButton;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label SendLabel;
+        private Button SenderAddButton;
+        public Button TakerAddButton;
     }
 }
 
