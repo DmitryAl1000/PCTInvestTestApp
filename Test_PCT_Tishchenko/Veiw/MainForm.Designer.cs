@@ -67,7 +67,7 @@
             SenderDataGridView.Location = new Point(4, 216);
             SenderDataGridView.Margin = new Padding(4, 3, 4, 3);
             SenderDataGridView.Name = "SenderDataGridView";
-            SenderDataGridView.Size = new Size(357, 294);
+            SenderDataGridView.Size = new Size(356, 294);
             SenderDataGridView.TabIndex = 1;
             // 
             // GetLabel
@@ -99,7 +99,7 @@
             SenderRichTextBox.Location = new Point(4, 117);
             SenderRichTextBox.Margin = new Padding(4, 3, 4, 3);
             SenderRichTextBox.Name = "SenderRichTextBox";
-            SenderRichTextBox.Size = new Size(356, 49);
+            SenderRichTextBox.Size = new Size(355, 49);
             SenderRichTextBox.TabIndex = 5;
             SenderRichTextBox.Text = "";
             SenderRichTextBox.KeyDown += SenderRichTextBox_KeyDown;
@@ -121,7 +121,7 @@
             label1.Location = new Point(5, 91);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(358, 22);
+            label1.Size = new Size(357, 22);
             label1.TabIndex = 7;
             label1.Text = "Поле ввода данных для отгрузки";
             label1.TextAlign = ContentAlignment.TopCenter;
@@ -190,7 +190,7 @@
             SendLabel.Location = new Point(4, 185);
             SendLabel.Margin = new Padding(4, 0, 4, 0);
             SendLabel.Name = "SendLabel";
-            SendLabel.Size = new Size(356, 28);
+            SendLabel.Size = new Size(355, 28);
             SendLabel.TabIndex = 8;
             SendLabel.Text = "Отгрузка";
             SendLabel.TextAlign = ContentAlignment.TopCenter;
@@ -198,6 +198,7 @@
             // OpenExcelFileButton
             // 
             OpenExcelFileButton.AccessibleRole = AccessibleRole.None;
+            OpenExcelFileButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             OpenExcelFileButton.Location = new Point(168, 524);
             OpenExcelFileButton.Name = "OpenExcelFileButton";
             OpenExcelFileButton.Size = new Size(152, 40);

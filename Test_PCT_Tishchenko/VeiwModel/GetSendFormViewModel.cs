@@ -8,7 +8,6 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Excell;
 using Lib_Excell;
-using Aspose.Cells.Drawing;
 using Microsoft.VisualBasic.Logging;
 using System.IO;
 using System.IO.Pipes;

@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DLFromExcell\ExcelLib\Lib_Excell.csproj" />
+    <ProjectReference Include="..\Excell\Excell.csproj" />
   </ItemGroup>
 
   <ItemGroup>
