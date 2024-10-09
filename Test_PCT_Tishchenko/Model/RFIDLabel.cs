@@ -10,13 +10,18 @@ namespace PCTInvestApp
     public class RFIDLabel : ILabel
     {
         public string Id { get; set; } = string.Empty;
+        public string RFIDName { get; set; } = string.Empty;
         public int Count { get; set; }
 
-        public RFIDLabel(string id, int count)
+        public RFIDLabel(string id, string RFIDName, int count)
         {
             this.Id = id.ToUpper();
+            this.RFIDName = RFIDName;
             this.Count = count; 
         }
+
+
+
 
         public override bool Equals(object? obj)
         {

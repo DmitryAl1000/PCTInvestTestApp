@@ -8,9 +8,9 @@ namespace PCTInvestApp
 {
     public interface ISimpleFormComands
     {
-        public void showMessege(string str);
+        public void ShowMessege(string str);
 
-        public void showErrorMessege(string str);
+        public void ShowErrorMessege(string str);
 
     }
 

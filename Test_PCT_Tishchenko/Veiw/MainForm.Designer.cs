@@ -40,6 +40,7 @@
             TakerAddButton = new Button();
             SenderAddButton = new Button();
             SendLabel = new Label();
+            OpenExcelFileButton = new Button();
             ((System.ComponentModel.ISupportInitialize)TakerDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SenderDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -66,7 +67,7 @@
             SenderDataGridView.Location = new Point(4, 216);
             SenderDataGridView.Margin = new Padding(4, 3, 4, 3);
             SenderDataGridView.Name = "SenderDataGridView";
-            SenderDataGridView.Size = new Size(360, 294);
+            SenderDataGridView.Size = new Size(357, 294);
             SenderDataGridView.TabIndex = 1;
             // 
             // GetLabel
@@ -98,7 +99,7 @@
             SenderRichTextBox.Location = new Point(4, 117);
             SenderRichTextBox.Margin = new Padding(4, 3, 4, 3);
             SenderRichTextBox.Name = "SenderRichTextBox";
-            SenderRichTextBox.Size = new Size(359, 49);
+            SenderRichTextBox.Size = new Size(356, 49);
             SenderRichTextBox.TabIndex = 5;
             SenderRichTextBox.Text = "";
             SenderRichTextBox.KeyDown += SenderRichTextBox_KeyDown;
@@ -120,7 +121,7 @@
             label1.Location = new Point(5, 91);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(361, 22);
+            label1.Size = new Size(358, 22);
             label1.TabIndex = 7;
             label1.Text = "Поле ввода данных для отгрузки";
             label1.TextAlign = ContentAlignment.TopCenter;
@@ -189,20 +190,31 @@
             SendLabel.Location = new Point(4, 185);
             SendLabel.Margin = new Padding(4, 0, 4, 0);
             SendLabel.Name = "SendLabel";
-            SendLabel.Size = new Size(359, 28);
+            SendLabel.Size = new Size(356, 28);
             SendLabel.TabIndex = 8;
             SendLabel.Text = "Отгрузка";
             SendLabel.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // OpenExcelFileButton
+            // 
+            OpenExcelFileButton.AccessibleRole = AccessibleRole.None;
+            OpenExcelFileButton.Location = new Point(168, 524);
+            OpenExcelFileButton.Name = "OpenExcelFileButton";
+            OpenExcelFileButton.Size = new Size(152, 40);
+            OpenExcelFileButton.TabIndex = 10;
+            OpenExcelFileButton.Text = "Открыть Excell список Идентификаторов";
+            OpenExcelFileButton.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(782, 588);
+            Controls.Add(OpenExcelFileButton);
             Controls.Add(splitContainer1);
             Controls.Add(CleanButton);
             Margin = new Padding(4, 3, 4, 3);
-            MinimumSize = new Size(510, 427);
+            MinimumSize = new Size(540, 427);
             Name = "MainForm";
             Text = "Form1";
             Load += Form1_Load;
@@ -229,6 +241,7 @@
         private System.Windows.Forms.Label SendLabel;
         private Button SenderAddButton;
         public Button TakerAddButton;
+        private Button OpenExcelFileButton;
     }
 }
 

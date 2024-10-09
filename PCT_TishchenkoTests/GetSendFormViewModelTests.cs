@@ -11,13 +11,13 @@ namespace PCTInvestApp.Tests
     [TestClass()]
     public class GetSendFormViewModelTests
     {
-        private HashSet<string> _hexCodesPlug = new HashSet<string>();
+        private Dictionary<string, string> _hexCodesPlug = new();
 
         private const string REAL_HEX_CODE = "304DB75F196000180001C13A";
 
         public GetSendFormViewModelTests()
         {
-            _hexCodesPlug.Add(REAL_HEX_CODE);
+            _hexCodesPlug.Add(REAL_HEX_CODE,"ObgectName");
         }
 
         //---------------------------------------------
@@ -120,6 +120,24 @@ namespace PCTInvestApp.Tests
             Assert.IsTrue(FormVM.TakerDataGridView.Count == 0);
         }
 
+        [TestMethod()]
+        public void AddToTakerDbTest_AddLowerHexCode_returnAddedHexCode()
+        {
+            //arrange
+            ISimpleFormComands myPlug = new PlugClass();
+            GetSendFormViewModel FormVM = new(myPlug, _hexCodesPlug);
+
+            string not24simbolCode = REAL_HEX_CODE.ToLower();
+
+            //act
+            FormVM.TakerRichTextBox = not24simbolCode;
+            FormVM.AddToTakerDb();
+
+            //assert
+            Assert.IsTrue(FormVM.TakerDataGridView[0].Id == REAL_HEX_CODE);
+        }
+
+
         //---------------------------------------------
         // Test: delete from db, when we add to another db
         //---------------------------------------------
@@ -205,12 +223,12 @@ namespace PCTInvestApp.Tests
 
     class PlugClass : ISimpleFormComands
     {
-        public void showErrorMessege(string str)
+        public void ShowErrorMessege(string str)
         {
             //ничего
         }
 
-        public void showMessege(string str)
+        public void ShowMessege(string str)
         {
             //ничего
         }

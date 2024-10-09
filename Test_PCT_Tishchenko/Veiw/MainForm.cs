@@ -19,7 +19,7 @@ namespace PCTInvestApp
 
         public MainForm()
         {
-            HashSet<string> hexCodesDictionary = DownLoadFiles.GetDictionaryOfHexCodes();
+            Dictionary<string, string> hexCodesDictionary = DownLoadFiles.GetDictionaryFromExcel();
             _dataContextModel = new GetSendFormViewModel(this, hexCodesDictionary);
             InitializeComponent();
             InitializeBindings();
@@ -43,9 +43,10 @@ namespace PCTInvestApp
             //Buttons, кнопки
             //---------------------------------------------
             CleanButton.DataBindings.Add(new Binding("Command", _dataContextModel, "CleanCommand", true));
+            OpenExcelFileButton.DataBindings.Add(new Binding("Command", _dataContextModel, "OpenExcellFileCommand", true));
 
             //---------------------------------------------
-            //imaginary buttons
+            //Imaginary buttons
             //---------------------------------------------
             TakerAddButton.DataBindings.Add(new Binding("Command", _dataContextModel, "TakerAddCommand", true));
             SenderAddButton.DataBindings.Add(new Binding("Command", _dataContextModel, "SenderAddCommand", true));
@@ -65,13 +66,13 @@ namespace PCTInvestApp
             dataGridView.ReadOnly = true;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView.RowHeadersVisible = false;
+            dataGridView.Columns["Id"].Visible = false;
 
+            dataGridView.Columns["RFIDName"].Width = 400;
+            dataGridView.Columns["RFIDName"].HeaderText = "Наименование объекта";
 
-            dataGridView.Columns[0].Width = 400;
-            dataGridView.Columns[0].HeaderText = "Идентификатор метки";
-
-            dataGridView.Columns[1].Width = 100;
-            dataGridView.Columns[1].HeaderText = "Количество";
+            dataGridView.Columns["Count"].Width = 100;
+            dataGridView.Columns["Count"].HeaderText = "Количество";
         }
 
 
@@ -94,7 +95,7 @@ namespace PCTInvestApp
         //---------------------------------------------
         // Commands
         //---------------------------------------------
-        public void showMessege(string str) => MessageBox.Show(str);
-        public void showErrorMessege(string str) => MessageBox.Show(str, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+        public void ShowMessege(string str) => MessageBox.Show(str);
+        public void ShowErrorMessege(string str) => MessageBox.Show(str, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Stop);
     }
 }

@@ -8,8 +8,9 @@ namespace PCTInvestApp
 {
     public interface ILabel
     {
-         public string Id { get; set; }
-         public int Count { get; set; }
+        public string Id { get; set; }
+        public string RFIDName { get; set; }
+        public int Count { get; set; }
 
     }
 }

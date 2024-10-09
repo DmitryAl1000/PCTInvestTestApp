@@ -12,21 +12,25 @@ using Aspose.Cells.Drawing;
 using Microsoft.VisualBasic.Logging;
 using System.IO;
 using System.IO.Pipes;
+using System.Diagnostics;
 
 namespace PCTInvestApp
 {
+
+
     public class GetSendFormViewModel : INotifyPropertyChanged
     {
         //ссылка на форму
         readonly ISimpleFormComands _activeForm;
-        readonly HashSet<string> _dictionaryOfLabels;
+        readonly Dictionary<string, string> _dictionaryOfLabels;
 
 
         const string ERROR_MESSEGE_HEADER = "Данные коды не добавлены:";
-
         const string ERROR_MESSEGE_NOT24_SIMBOL = " - не 24 символа";
         const string ERROR_MESSEGE_NOT_HEXCODE = " - не является HexКодом";
         const string ERROR_MESSEGE_NOT_IN_DICTIONARY = " - нет в перечне идентификаторов";
+
+        const string PATH_TO_DICTIONARY = "dictionary.xlsx";
 
 
         //---------------------------------------------
@@ -78,10 +82,10 @@ namespace PCTInvestApp
                 _senderRichTextBox = value;
                 OnPropertyChanged("SenderRichTextBox");
             }
-        } 
+        }
 
 
-        public GetSendFormViewModel(ISimpleFormComands activeForm, HashSet<string> dictionaryOfLabels )
+        public GetSendFormViewModel(ISimpleFormComands activeForm, Dictionary<string, string> dictionaryOfLabels)
         {
             this._activeForm = activeForm;
             this._dictionaryOfLabels = dictionaryOfLabels;
@@ -97,8 +101,11 @@ namespace PCTInvestApp
         //Commands, Команды
         //---------------------------------------------
         public ICommand? CleanCommand { get; set; }
-        public ICommand? TakerAddCommand  { get; set; }
+        public ICommand? TakerAddCommand { get; set; }
         public ICommand? SenderAddCommand { get; set; }
+        public ICommand? OpenExcellFileCommand { get; set; }
+
+
 
         private void DeclareComands()
         {
@@ -118,13 +125,18 @@ namespace PCTInvestApp
             SenderAddCommand = new MainCommand(p =>
             {
 
-                AddAllFromField(textField: SenderRichTextBox, 
+                AddAllFromField(textField: SenderRichTextBox,
                                 dbForAdd: SenderDataGridView,
                                 dbForDelete: TakerDataGridView);
 
                 OnPropertyChanged(nameof(TakerDataGridView));
                 OnPropertyChanged(nameof(SenderDataGridView));
                 SenderRichTextBox = string.Empty;
+            });
+
+            OpenExcellFileCommand = new MainCommand(p =>
+            {
+                OpenExcellFile();
             });
         }
 
@@ -157,6 +169,23 @@ namespace PCTInvestApp
         }
 
 
+        public void OpenExcellFile()
+        {
+            FileInfo fileInfo = new FileInfo(PATH_TO_DICTIONARY);
+            if (!fileInfo.Exists)
+            {
+                _activeForm.ShowMessege("Файл не найден");
+                return;
+            }
+
+            var p = new Process();
+            p.StartInfo = new ProcessStartInfo(PATH_TO_DICTIONARY)
+            {
+                UseShellExecute = true
+            };
+            p.Start();
+        }
+
 
         /// <summary>
         /// Добавить в одну форму и удалить из другой
@@ -172,8 +201,8 @@ namespace PCTInvestApp
                 if (!IsItCorrectHexCode(hexCode, ErrorList))
                     continue;
 
-                AddOneToDB(dbForAdd, hexCode);
-                RemoveOneFromDB(dbForDelete, hexCode);
+                AddOneToDB(dbForAdd, hexCode.ToUpper());
+                RemoveOneFromDB(dbForDelete, hexCode.ToUpper());
             }
             if (ErrorList.Count > 0)
                 ShowErrorMessege(ErrorList);
@@ -181,7 +210,7 @@ namespace PCTInvestApp
 
         private void RemoveOneFromDB(BindingList<ILabel> dataBase, string id)
         {
-            RFIDLabel label = new("0",0); //пустая метка для замены, если придется удалять
+            RFIDLabel label = new("0", "0", 0); //пустая метка для замены, если придется удалять
             foreach (var item in dataBase)
             {
                 if (item.Id.ToUpper() == id.ToUpper())
@@ -189,7 +218,7 @@ namespace PCTInvestApp
                     if (item.Count > 1)
                         item.Count--;
                     else
-                        label = new(item.Id, item.Count);
+                        label = new(item.Id, item.RFIDName, item.Count);
                     break;
                 }
             }
@@ -210,16 +239,20 @@ namespace PCTInvestApp
                 }
             }
             else
-            {
-                var label = new RFIDLabel(hexCode, 1); // 1 - потому что добавляется одна метка(первая), если метки небыло
-                dataBase.Add(label);
-            }
-            Reresh(dataBase); 
+                InsertNewIndb(dataBase, hexCode);
+            Reresh(dataBase);
+        }
+
+        private void InsertNewIndb(BindingList<ILabel> dataBase, string hexCode)
+        {
+            string RFIDLabeleName = _dictionaryOfLabels[hexCode];
+            var label = new RFIDLabel(hexCode, RFIDLabeleName, 1); // 1 - потому что добавляется одна метка(первая), если метки небыло
+            dataBase.Add(label);
         }
 
         private void Reresh(BindingList<ILabel> dataBase)
         {
-            var label = new RFIDLabel("1", 1);
+            var label = new RFIDLabel("1", "1", 1); //заглушка костыль
             dataBase.Add(label);
             dataBase.Remove(label);
         }
@@ -235,7 +268,7 @@ namespace PCTInvestApp
                     messege += $"{i + 1}. " + ErrorList[i] + "\n"; // +1 чтобы счет в списке начиналс с 1 а не с нуля. 
                 }
             }
-            _activeForm.showErrorMessege(messege);
+            _activeForm.ShowErrorMessege(messege);
         }
 
         //---------------------------------------------
@@ -251,13 +284,13 @@ namespace PCTInvestApp
                 errorList.Add(hexCode + ERROR_MESSEGE_NOT24_SIMBOL);
                 return false;
             }
-                
+
             if (!IsItHexCode(hexCode))
             {
                 errorList.Add(hexCode + ERROR_MESSEGE_NOT_HEXCODE);
                 return false;
             }
-                
+
             if (!IsItInDictionary(hexCode))
             {
                 errorList.Add(hexCode + ERROR_MESSEGE_NOT_IN_DICTIONARY);
@@ -268,15 +301,15 @@ namespace PCTInvestApp
 
         private bool IsItInDictionary(string HexCode)
         {
-            if (_dictionaryOfLabels.Contains(HexCode))
+            if (_dictionaryOfLabels.ContainsKey(HexCode.ToUpper()))
                 return true;
             else
                 return false;
         }
-        private bool IsIdInDataBase(BindingList<ILabel> dataBase, string id)
+        private bool IsIdInDataBase(BindingList<ILabel> dataBase, string HexCode)
         {
-            var target = new RFIDLabel(id,0); 
-            //0 тут просто так сравнение идет только по id
+            var target = new RFIDLabel(HexCode, "0", 0);
+            //0 тут просто так. сравнение идет только по id
             //Equals переопределен
             if (dataBase.Contains(target))
                 return true;
