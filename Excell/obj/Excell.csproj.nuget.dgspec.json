@@ -1,0 +1,77 @@
+{
+  "format": 1,
+  "restore": {
+    "G:\\6 - C#\\PCTInvestTestApp\\Excell\\Excell.csproj": {}
+  },
+  "projects": {
+    "G:\\6 - C#\\PCTInvestTestApp\\Excell\\Excell.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "G:\\6 - C#\\PCTInvestTestApp\\Excell\\Excell.csproj",
+        "projectName": "Excell",
+        "projectPath": "G:\\6 - C#\\PCTInvestTestApp\\Excell\\Excell.csproj",
+        "packagesPath": "C:\\Users\\Dim\\.nuget\\packages\\",
+        "outputPath": "G:\\6 - C#\\PCTInvestTestApp\\Excell\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Dim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0-windows7.0": {
+            "targetAlias": "net8.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "Aspose.Cells": {
+              "target": "Package",
+              "version": "[24.9.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

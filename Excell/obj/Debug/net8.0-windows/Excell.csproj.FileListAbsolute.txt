@@ -1,0 +1,13 @@
+G:\6 - C#\PCTInvestTestApp\Excell\obj\Debug\net8.0-windows\Excell.GeneratedMSBuildEditorConfig.editorconfig
+G:\6 - C#\PCTInvestTestApp\Excell\obj\Debug\net8.0-windows\Excell.AssemblyInfoInputs.cache
+G:\6 - C#\PCTInvestTestApp\Excell\obj\Debug\net8.0-windows\Excell.AssemblyInfo.cs
+G:\6 - C#\PCTInvestTestApp\Excell\obj\Debug\net8.0-windows\Excell.csproj.CoreCompileInputs.cache
+G:\6 - C#\PCTInvestTestApp\Excell\obj\Debug\net8.0-windows\Excell.sourcelink.json
+G:\6 - C#\PCTInvestTestApp\Excell\bin\Debug\net8.0-windows\Excell.deps.json
+G:\6 - C#\PCTInvestTestApp\Excell\bin\Debug\net8.0-windows\Excell.dll
+G:\6 - C#\PCTInvestTestApp\Excell\bin\Debug\net8.0-windows\Excell.pdb
+G:\6 - C#\PCTInvestTestApp\Excell\obj\Debug\net8.0-windows\Excell.csproj.AssemblyReference.cache
+G:\6 - C#\PCTInvestTestApp\Excell\obj\Debug\net8.0-windows\Excell.dll
+G:\6 - C#\PCTInvestTestApp\Excell\obj\Debug\net8.0-windows\refint\Excell.dll
+G:\6 - C#\PCTInvestTestApp\Excell\obj\Debug\net8.0-windows\Excell.pdb
+G:\6 - C#\PCTInvestTestApp\Excell\obj\Debug\net8.0-windows\ref\Excell.dll

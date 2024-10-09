@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "4qb2x8yKQ1ihtUGHrnlrxGqyMW7c0OXMxcouS7vg9xCdUXvhvLlADqvtzXgj2Ist/sG6XY4HBnLQ11HPpVwmTw==",
+  "success": true,
+  "projectFilePath": "G:\\6 - C#\\PCTInvestTestApp\\Excell\\Excell.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Dim\\.nuget\\packages\\aspose.cells\\24.9.0\\aspose.cells.24.9.0.nupkg.sha512",
+    "C:\\Users\\Dim\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\Dim\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dim\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dim\\.nuget\\packages\\system.formats.asn1\\6.0.0\\system.formats.asn1.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dim\\.nuget\\packages\\system.security.cryptography.pkcs\\6.0.3\\system.security.cryptography.pkcs.6.0.3.nupkg.sha512",
+    "C:\\Users\\Dim\\.nuget\\packages\\system.text.encoding.codepages\\4.7.0\\system.text.encoding.codepages.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}
