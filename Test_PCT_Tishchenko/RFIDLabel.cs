@@ -14,13 +14,13 @@ namespace PCTInvestTestApp
 
         public RFIDLabel(string id, int count)
         {
-            this.Id = id.ToLower();
+            this.Id = id.ToUpper();
             this.Count = count; 
         }
 
         public override bool Equals(object? obj)
         {
-            if (obj is RFIDLabel person) return Id.ToLower() == person.Id.ToLower();
+            if (obj is RFIDLabel person) return Id.ToUpper() == person.Id.ToUpper();
             return false;
         }
 

@@ -20,13 +20,10 @@ namespace PCTInvestTestApp
         {
             _dataContextModel = new GetSendFormViewModel(this);
             InitializeComponent();
-            InitBindings();
-
-
+            InitializeBindings();
         }
 
-
-        private void InitBindings()
+        private void InitializeBindings()
         {
             //---------------------------------------------
             //Table, Tаблицы
@@ -45,43 +42,40 @@ namespace PCTInvestTestApp
             //---------------------------------------------
             CleanButton.DataBindings.Add(new Binding("Command", _dataContextModel, "CleanCommand", true));
 
+            //---------------------------------------------
+            //imaginary buttons
+            //---------------------------------------------
             TakerAddButton.DataBindings.Add(new Binding("Command", _dataContextModel, "TakerAddCommand", true));
             SenderAddButton.DataBindings.Add(new Binding("Command", _dataContextModel, "SenderAddCommand", true));
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            SetupDataGridView(TakerDataGridView);
+            SetupDataGridView(SenderDataGridView);
+        }
 
-        private void SetupTakerDataGridView(DataGridView dataGridView)
+        private void SetupDataGridView(DataGridView dataGridView)
         {
             dataGridView.AllowUserToAddRows = false;
             dataGridView.AllowDrop = false;
             dataGridView.AllowUserToDeleteRows = false;
             dataGridView.ReadOnly = true;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView.RowHeadersVisible = false;
 
 
-            dataGridView.Columns[0].Width = 350;
+            dataGridView.Columns[0].Width = 400;
             dataGridView.Columns[0].HeaderText = "Идентификатор метки";
 
             dataGridView.Columns[1].Width = 100;
             dataGridView.Columns[1].HeaderText = "Количество";
         }
 
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            SetupTakerDataGridView(TakerDataGridView);
-            SetupTakerDataGridView(SenderDataGridView);
-        }
-
 
         //---------------------------------------------
         // Hot Keys
         //---------------------------------------------
-
         private void TakerRichTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)

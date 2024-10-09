@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Excell;
+using Lib_Excell;
+using Aspose.Cells.Drawing;
 
 namespace PCTInvestTestApp
 {
@@ -13,9 +16,14 @@ namespace PCTInvestTestApp
     {
         //ссылка на форму
         readonly ISimpleFormComands _activeForm;
+        readonly HashSet<string> _dictionaryOfLabels;
 
-        const string ERROR_MESSEGE_HEADER = "Данные Идентификаторы не присутствуют в справочнике, или не являются 24хсимвольным HexКодом";
 
+        const string ERROR_MESSEGE_HEADER = "Данные коды не добавлены:";
+
+        const string ERROR_MESSEGE_NOT24_SIMBOL = " - не 24 символа";
+        const string ERROR_MESSEGE_NOT_HEXCODE = " - не является HexКодом";
+        const string ERROR_MESSEGE_NOT_IN_DICTIONARY = " - нет в перечне идентификаторов";
 
 
         //---------------------------------------------
@@ -79,9 +87,8 @@ namespace PCTInvestTestApp
 
             DeclareComands();
 
-            RFIDLabel label = new("00000000000000000000FDDF", 10);
-            TakerDataGridView.Add(label);
-            //подгрузка из экселя
+            List<string> log = new();
+            _dictionaryOfLabels = ExcellD.GetHashSetFromExcell("dictionary.xlsx", log);
         }
 
         //---------------------------------------------
@@ -101,14 +108,20 @@ namespace PCTInvestTestApp
             });
             TakerAddCommand = new MainCommand(p =>
             {
-                TakerAdd();
+                AddAllFromField(textField: TakerRichTextBox,
+                                dbForAdd: TakerDataGridView,
+                                dbForDelete: SenderDataGridView);
+
                 OnPropertyChanged(nameof(TakerDataGridView));
                 OnPropertyChanged(nameof(SenderDataGridView));
                 TakerRichTextBox = string.Empty;
             });
             SenderAddCommand = new MainCommand(p =>
             {
-                SenderAdd();
+                AddAllFromField(textField: SenderRichTextBox, 
+                                dbForAdd: SenderDataGridView,
+                                dbForDelete: TakerDataGridView);
+
                 OnPropertyChanged(nameof(TakerDataGridView));
                 OnPropertyChanged(nameof(SenderDataGridView));
                 SenderRichTextBox = string.Empty;
@@ -129,63 +142,33 @@ namespace PCTInvestTestApp
         private void CleanSenderDataGridView() => SenderDataGridView.Clear();
 
 
-        /// <summary>
-        /// Добавить в Приёмки, если такой Id есть в Отгрузках удалить его
-        /// </summary>
-        private void TakerAdd()
+       /// <summary>
+       /// Добавить в одну форму и удалить из другой
+       /// </summary>
+       /// <param name="textField"></param>
+       /// <param name="dbForAdd"></param>
+       /// <param name="dbForDelete"></param>
+        private void AddAllFromField(string textField, BindingList<ILabel> dbForAdd, BindingList<ILabel> dbForDelete)
         {
             List<string> ErrorList = new();
-            foreach (var hexCode in TakerRichTextBox.Split())
+            foreach (var hexCode in textField.Split())
             {
-                if (IsIt24HexCode(hexCode))
-                    AddToFirstDeleteFromSecond(hexCode, TakerDataGridView, SenderDataGridView);
-                else
-                    if (hexCode != string.Empty)
-                          ErrorList.Add(hexCode);
+                if (!IsItCorrectHexCode(hexCode, ErrorList))
+                    continue;
+
+                AddOneToDB(dbForAdd, hexCode);
+                RemoveOneFromDB(dbForDelete, hexCode);
             }
             if (ErrorList.Count > 0)
                 ShowErrorMessege(ErrorList);
         }
-
-        private void SenderAdd()
-        {
-            List<string> ErrorList = new();
-            foreach (var hexCode in SenderRichTextBox.Split())
-            {
-                if (IsIt24HexCode(hexCode))
-                    AddToFirstDeleteFromSecond(hexCode, SenderDataGridView, TakerDataGridView);
-                else
-                    if (hexCode != string.Empty)
-                    ErrorList.Add(hexCode);
-            }
-            if (ErrorList.Count > 0)
-                ShowErrorMessege(ErrorList);
-        }
-
-
-        private void AddToFirstDeleteFromSecond(string hexCode, BindingList<ILabel> dbForAdd, BindingList<ILabel> dbForDelete)
-        {
-            if (IsIdInDataBase(dbForAdd, hexCode))
-            {
-                AddOneToAnExistingId(dbForAdd, hexCode);
-                RemoveOneFromDB(dbForDelete, hexCode);
-            }
-            else
-            {
-                var label = new RFIDLabel(hexCode, 1); // 1 - потому что добавляется одна метка(первая), если метки небыло
-                dbForAdd.Add(label);
-                RemoveOneFromDB(dbForDelete, hexCode);
-            }
-        }
-
-
 
         private void RemoveOneFromDB(BindingList<ILabel> dataBase, string id)
         {
             RFIDLabel label = new("0",0); //пустая метка для замены, если придется удалять
             foreach (var item in dataBase)
             {
-                if (item.Id.ToLower() == id.ToLower())
+                if (item.Id.ToUpper() == id.ToUpper())
                 {
                     if (item.Count > 1)
                         item.Count--;
@@ -198,17 +181,25 @@ namespace PCTInvestTestApp
             Reresh(dataBase);
         }
 
-        private void AddOneToAnExistingId(BindingList<ILabel> dataBase, string id)
+        private void AddOneToDB(BindingList<ILabel> dataBase, string hexCode)
         {
-            foreach (var item in dataBase)
+            if (IsIdInDataBase(dataBase, hexCode))
             {
-                if (item.Id.ToLower() == id.ToLower())
+                foreach (var item in dataBase)
                 {
-                    item.Count++;
-                    break;
+                    if (item.Id.ToUpper() == hexCode.ToUpper())
+                    {
+                        item.Count++;
+                        break;
+                    }
                 }
             }
-            Reresh(dataBase);
+            else
+            {
+                var label = new RFIDLabel(hexCode, 1); // 1 - потому что добавляется одна метка(первая), если метки небыло
+                dataBase.Add(label);
+            }
+            Reresh(dataBase); 
         }
 
         private void Reresh(BindingList<ILabel> dataBase)
@@ -218,6 +209,42 @@ namespace PCTInvestTestApp
             dataBase.Remove(label);
         }
 
+
+        //---------------------------------------------
+        // Checks
+        //---------------------------------------------
+
+        private bool IsItCorrectHexCode(string hexCode, List<string> errorList)
+        {
+            if (hexCode == string.Empty)
+                return false;
+            if (!IsIt24Simbol(hexCode))
+            {
+                errorList.Add(hexCode + ERROR_MESSEGE_NOT24_SIMBOL);
+                return false;
+            }
+                
+            if (!IsItHexCode(hexCode))
+            {
+                errorList.Add(hexCode + ERROR_MESSEGE_NOT_HEXCODE);
+                return false;
+            }
+                
+            if (!IsItInDictionary(hexCode))
+            {
+                errorList.Add(hexCode + ERROR_MESSEGE_NOT_IN_DICTIONARY);
+                return false;
+            }
+            return true;
+        }
+
+        private bool IsItInDictionary(string HexCode)
+        {
+            if (_dictionaryOfLabels.Contains(HexCode))
+                return true;
+            else
+                return false;
+        }
         private bool IsIdInDataBase(BindingList<ILabel> dataBase, string id)
         {
             var target = new RFIDLabel(id,0); 
@@ -228,13 +255,12 @@ namespace PCTInvestTestApp
             else
                 return false;
         }
-
         private void ShowErrorMessege(List<string> ErrorList)
         {
             string messege = string.Empty;
             if (ErrorList.Count > 0)
             {
-                messege += ERROR_MESSEGE_HEADER + "\n";
+                messege += ERROR_MESSEGE_HEADER + "\n\n";
 
                 for (int i = 0; i < ErrorList.Count; i++)
                 {
@@ -243,15 +269,6 @@ namespace PCTInvestTestApp
             }
             _activeForm.showErrorMessege(messege);
         }
-        private bool IsIt24HexCode(string line)
-        {
-            if (!IsIt24Simbol(line))
-                return false;
-            if (!IsItHexCode(line))
-                return false;
-
-            return true;
-        }
         private bool IsIt24Simbol(string line)
         {
             if (line.Length == 24)
@@ -259,12 +276,11 @@ namespace PCTInvestTestApp
             else
                 return false;
         }
-
         private bool IsItHexCode(string line)
         {
-            List<char> binnums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
+            List<char> binnums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
 
-            foreach (var simbol in line.ToLower())
+            foreach (var simbol in line.ToUpper())
             {
                 if (!binnums.Contains(simbol))
                     return false;

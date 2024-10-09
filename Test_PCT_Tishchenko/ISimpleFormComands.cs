@@ -15,7 +15,6 @@ namespace PCTInvestTestApp
         public bool IsYesOrNoShowMessge(string str);
 
         public void CloseForm();
-
     }
 
 }

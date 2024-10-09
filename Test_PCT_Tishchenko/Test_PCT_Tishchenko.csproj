@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\DLFromExcell\ExcelLib\Lib_Excell.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
