@@ -1,4 +1,4 @@
-﻿namespace PCTInvestTestApp
+﻿namespace PCTInvestApp
 {
     partial class MainForm
     {

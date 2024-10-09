@@ -1,6 +1,6 @@
-using PCTInvestTestApp;
 
-namespace Test_PCT_Tishchenko
+
+namespace PCTInvestApp
 {
     internal static class Program
     {

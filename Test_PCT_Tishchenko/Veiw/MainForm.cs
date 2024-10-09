@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCT_Tishchenko;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PCTInvestTestApp
+namespace PCTInvestApp
 {
     public partial class MainForm : Form, ISimpleFormComands
     {
@@ -18,7 +19,8 @@ namespace PCTInvestTestApp
 
         public MainForm()
         {
-            _dataContextModel = new GetSendFormViewModel(this);
+            HashSet<string> hexCodesDictionary = DownLoadFiles.GetDictionaryOfHexCodes();
+            _dataContextModel = new GetSendFormViewModel(this, hexCodesDictionary);
             InitializeComponent();
             InitializeBindings();
         }
@@ -94,19 +96,5 @@ namespace PCTInvestTestApp
         //---------------------------------------------
         public void showMessege(string str) => MessageBox.Show(str);
         public void showErrorMessege(string str) => MessageBox.Show(str, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-        public bool IsYesOrNoShowMessge(string str)
-        {
-            DialogResult result = MessageBox.Show(
-                    str,
-                    "Вы уверены?",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
-            if (result == DialogResult.Yes)
-                return true;
-
-            return false;
-        }
-        public void CloseForm() => this.Close();
     }
 }

@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="MainForm.cs">
+    <Compile Update="Veiw\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

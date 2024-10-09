@@ -9,8 +9,11 @@ using System.Windows.Input;
 using Excell;
 using Lib_Excell;
 using Aspose.Cells.Drawing;
+using Microsoft.VisualBasic.Logging;
+using System.IO;
+using System.IO.Pipes;
 
-namespace PCTInvestTestApp
+namespace PCTInvestApp
 {
     public class GetSendFormViewModel : INotifyPropertyChanged
     {
@@ -78,17 +81,16 @@ namespace PCTInvestTestApp
         } 
 
 
-        public GetSendFormViewModel(ISimpleFormComands activeForm)
+        public GetSendFormViewModel(ISimpleFormComands activeForm, HashSet<string> dictionaryOfLabels )
         {
             this._activeForm = activeForm;
+            this._dictionaryOfLabels = dictionaryOfLabels;
+
 
             _takerDataGridView = new();
             _senderDataGridView = new();
 
             DeclareComands();
-
-            List<string> log = new();
-            _dictionaryOfLabels = ExcellD.GetHashSetFromExcell("dictionary.xlsx", log);
         }
 
         //---------------------------------------------
@@ -108,16 +110,14 @@ namespace PCTInvestTestApp
             });
             TakerAddCommand = new MainCommand(p =>
             {
-                AddAllFromField(textField: TakerRichTextBox,
-                                dbForAdd: TakerDataGridView,
-                                dbForDelete: SenderDataGridView);
-
+                AddToTakerDb();
                 OnPropertyChanged(nameof(TakerDataGridView));
                 OnPropertyChanged(nameof(SenderDataGridView));
                 TakerRichTextBox = string.Empty;
             });
             SenderAddCommand = new MainCommand(p =>
             {
+
                 AddAllFromField(textField: SenderRichTextBox, 
                                 dbForAdd: SenderDataGridView,
                                 dbForDelete: TakerDataGridView);
@@ -132,7 +132,7 @@ namespace PCTInvestTestApp
         /// <summary>
         /// Очистить обе формы
         /// </summary>
-        private void CleanBothForm()
+        public void CleanBothForm()
         {
             CleanTakerDataGridView();
             CleanSenderDataGridView();
@@ -141,13 +141,29 @@ namespace PCTInvestTestApp
         private void CleanTakerDataGridView() => TakerDataGridView.Clear();
         private void CleanSenderDataGridView() => SenderDataGridView.Clear();
 
+        public void AddToTakerDb()
+        {
+            AddAllFromField(textField: TakerRichTextBox,
+                                dbForAdd: TakerDataGridView,
+                                dbForDelete: SenderDataGridView);
+        }
 
-       /// <summary>
-       /// Добавить в одну форму и удалить из другой
-       /// </summary>
-       /// <param name="textField"></param>
-       /// <param name="dbForAdd"></param>
-       /// <param name="dbForDelete"></param>
+
+        public void AddToSenderDb()
+        {
+            AddAllFromField(textField: SenderRichTextBox,
+                                dbForAdd: SenderDataGridView,
+                                dbForDelete: TakerDataGridView);
+        }
+
+
+
+        /// <summary>
+        /// Добавить в одну форму и удалить из другой
+        /// </summary>
+        /// <param name="textField"></param>
+        /// <param name="dbForAdd"></param>
+        /// <param name="dbForDelete"></param>
         private void AddAllFromField(string textField, BindingList<ILabel> dbForAdd, BindingList<ILabel> dbForDelete)
         {
             List<string> ErrorList = new();
@@ -180,7 +196,6 @@ namespace PCTInvestTestApp
             dataBase.Remove(label);
             Reresh(dataBase);
         }
-
         private void AddOneToDB(BindingList<ILabel> dataBase, string hexCode)
         {
             if (IsIdInDataBase(dataBase, hexCode))
@@ -208,7 +223,20 @@ namespace PCTInvestTestApp
             dataBase.Add(label);
             dataBase.Remove(label);
         }
+        private void ShowErrorMessege(List<string> ErrorList)
+        {
+            string messege = string.Empty;
+            if (ErrorList.Count > 0)
+            {
+                messege += ERROR_MESSEGE_HEADER + "\n\n";
 
+                for (int i = 0; i < ErrorList.Count; i++)
+                {
+                    messege += $"{i + 1}. " + ErrorList[i] + "\n"; // +1 чтобы счет в списке начиналс с 1 а не с нуля. 
+                }
+            }
+            _activeForm.showErrorMessege(messege);
+        }
 
         //---------------------------------------------
         // Checks
@@ -216,7 +244,7 @@ namespace PCTInvestTestApp
 
         private bool IsItCorrectHexCode(string hexCode, List<string> errorList)
         {
-            if (hexCode == string.Empty)
+            if (string.IsNullOrEmpty(hexCode))
                 return false;
             if (!IsIt24Simbol(hexCode))
             {
@@ -254,20 +282,6 @@ namespace PCTInvestTestApp
                 return true;
             else
                 return false;
-        }
-        private void ShowErrorMessege(List<string> ErrorList)
-        {
-            string messege = string.Empty;
-            if (ErrorList.Count > 0)
-            {
-                messege += ERROR_MESSEGE_HEADER + "\n\n";
-
-                for (int i = 0; i < ErrorList.Count; i++)
-                {
-                    messege += $"{i+1}. " + ErrorList[i] + "\n"; // +1 чтобы счет в списке начиналс с 1 а не с нуля. 
-                }  
-            }
-            _activeForm.showErrorMessege(messege);
         }
         private bool IsIt24Simbol(string line)
         {

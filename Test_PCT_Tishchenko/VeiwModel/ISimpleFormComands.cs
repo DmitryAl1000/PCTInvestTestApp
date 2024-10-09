@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PCTInvestTestApp
+namespace PCTInvestApp
 {
     public interface ISimpleFormComands
     {
@@ -12,9 +12,6 @@ namespace PCTInvestTestApp
 
         public void showErrorMessege(string str);
 
-        public bool IsYesOrNoShowMessge(string str);
-
-        public void CloseForm();
     }
 
 }
